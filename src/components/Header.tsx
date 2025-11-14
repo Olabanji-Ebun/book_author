@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaCommentDots } from 'react-icons/fa'
+import { FaCommentDots, FaChevronRight, FaTimes } from 'react-icons/fa'
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -182,109 +182,162 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Overlay and Drawer */}
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden pb-4 border-t border-gray-200 mt-2"
-            >
-              <div className="flex flex-col space-y-4 pt-4">
-                {/* HOME */}
-                <Link
-                  to="/"
-                  className={`text-sm font-semibold uppercase tracking-wide ${
-                    isActive('/')
-                      ? 'text-orange-500'
-                      : 'text-gray-700'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  HOME
-                </Link>
-                {/* ABOUT */}
-                <Link
-                  to="/about"
-                  className={`text-sm font-semibold uppercase tracking-wide ${
-                    isActive('/about')
-                      ? 'text-orange-500'
-                      : 'text-gray-700'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  ABOUT
-                </Link>
-                {/* Books Dropdown for Mobile */}
-                <div className="flex flex-col space-y-2">
-                  <button
-                    className={`text-sm font-semibold uppercase tracking-wide text-left ${
-                      isBooksActive()
-                        ? 'text-orange-500'
-                        : 'text-gray-700'
-                    }`}
-                    onClick={() => setIsBooksDropdownOpen(!isBooksDropdownOpen)}
-                  >
-                    BOOKS {isBooksDropdownOpen ? '−' : '+'}
-                  </button>
-                  {isBooksDropdownOpen && (
-                    <div className="pl-4 space-y-2">
-                      {booksSubmenu.map((item) => (
-                        <Link
-                          key={item.path}
-                          to={item.path}
-                          className={`block text-sm font-semibold uppercase tracking-wide ${
-                            isActive(item.path)
-                              ? 'text-orange-500'
-                              : 'text-gray-600'
-                          }`}
-                          onClick={() => {
-                            setIsMobileMenuOpen(false)
-                            setIsBooksDropdownOpen(false)
-                          }}
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+                onClick={() => setIsMobileMenuOpen(false)}
+              />
+              {/* Slide-in Menu */}
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
+                className="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-50 md:hidden overflow-y-auto"
+              >
+                <div className="flex flex-col h-full">
+                  {/* Header with Logo and Close Button */}
+                  <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                    <Link
+                      to="/"
+                      className="flex items-center gap-2"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                        <span className="text-white text-lg font-bold">★</span>
+                      </div>
+                      <span className="text-2xl font-bold text-gray-900 tracking-tight">MYRRA</span>
+                    </Link>
+                    <button
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                      aria-label="Close menu"
+                    >
+                      <FaTimes className="text-gray-700 text-xl" />
+                    </button>
+                  </div>
+
+                  {/* Navigation Links */}
+                  <div className="flex flex-col p-6 space-y-4 flex-grow">
+                    {/* HOME */}
+                    <Link
+                      to="/"
+                      className={`text-sm font-semibold uppercase tracking-wide py-2 ${
+                        isActive('/')
+                          ? 'text-orange-500'
+                          : 'text-gray-700'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      HOME
+                    </Link>
+                    {/* ABOUT */}
+                    <Link
+                      to="/about"
+                      className={`text-sm font-semibold uppercase tracking-wide py-2 ${
+                        isActive('/about')
+                          ? 'text-orange-500'
+                          : 'text-gray-700'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      ABOUT
+                    </Link>
+                    {/* Books Dropdown for Mobile */}
+                    <div className="flex flex-col space-y-2">
+                      <button
+                        className={`flex items-center justify-between text-sm font-semibold uppercase tracking-wide text-left py-2 ${
+                          isBooksActive()
+                            ? 'text-orange-500'
+                            : 'text-gray-700'
+                        }`}
+                        onClick={() => setIsBooksDropdownOpen(!isBooksDropdownOpen)}
+                      >
+                        <span>BOOKS</span>
+                        <motion.div
+                          animate={{ rotate: isBooksDropdownOpen ? 90 : 0 }}
+                          transition={{ duration: 0.2 }}
                         >
-                          {item.name}
-                        </Link>
-                      ))}
+                          <FaChevronRight className="text-xs" />
+                        </motion.div>
+                      </button>
+                      <AnimatePresence>
+                        {isBooksDropdownOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pl-4 space-y-2 pt-2">
+                              {booksSubmenu.map((item) => (
+                                <Link
+                                  key={item.path}
+                                  to={item.path}
+                                  className={`block text-sm font-semibold uppercase tracking-wide py-2 ${
+                                    isActive(item.path)
+                                      ? 'text-orange-500'
+                                      : 'text-gray-600'
+                                  }`}
+                                  onClick={() => {
+                                    setIsMobileMenuOpen(false)
+                                    setIsBooksDropdownOpen(false)
+                                  }}
+                                >
+                                  {item.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
-                  )}
+                    {/* BLOG */}
+                    <Link
+                      to="/blog"
+                      className={`text-sm font-semibold uppercase tracking-wide py-2 ${
+                        isActive('/blog')
+                          ? 'text-orange-500'
+                          : 'text-gray-700'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      BLOG
+                    </Link>
+                    {/* CONTACT */}
+                    <Link
+                      to="/contact"
+                      className={`text-sm font-semibold uppercase tracking-wide py-2 ${
+                        isActive('/contact')
+                          ? 'text-orange-500'
+                          : 'text-gray-700'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      CONTACT
+                    </Link>
+                    {/* Let's Talk Button for Mobile */}
+                    <Link
+                      to="/contact"
+                      className="flex items-center justify-center gap-2 px-4 py-3 bg-orange-500 text-white font-semibold uppercase tracking-wide rounded-lg hover:bg-orange-600 transition-colors mt-4"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <FaCommentDots className="text-sm" />
+                      <span className="text-sm">Let's Talk!</span>
+                    </Link>
+                  </div>
                 </div>
-                {/* BLOG */}
-                <Link
-                  to="/blog"
-                  className={`text-sm font-semibold uppercase tracking-wide ${
-                    isActive('/blog')
-                      ? 'text-orange-500'
-                      : 'text-gray-700'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  BLOG
-                </Link>
-                {/* CONTACT */}
-                <Link
-                  to="/contact"
-                  className={`text-sm font-semibold uppercase tracking-wide ${
-                    isActive('/contact')
-                      ? 'text-orange-500'
-                      : 'text-gray-700'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  CONTACT
-                </Link>
-                {/* Let's Talk Button for Mobile */}
-                <Link
-                  to="/contact"
-                  className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white font-semibold uppercase tracking-wide rounded-lg hover:bg-orange-600 transition-colors mt-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <FaCommentDots className="text-sm" />
-                  <span className="text-sm">Let's Talk!</span>
-                </Link>
-              </div>
-            </motion.div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </nav>
