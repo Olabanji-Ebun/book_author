@@ -19,7 +19,7 @@ const Awards = () => {
           className="text-center mb-12"
         >
           <p className="text-sm font-semibold text-orange-500 uppercase tracking-wider mb-2">
-            AWARDS & RECOGNITION
+            AWARDS WINNING
           </p>
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900">
             The Award I Received as a Writer

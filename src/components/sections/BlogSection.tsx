@@ -8,22 +8,22 @@ const BlogSection = () => {
 
   const posts = [
     {
-      title: 'So Who Can be a Modernist?',
-      date: 'JULY 20, 2023',
+      title: 'So Why Content Marketing Fails?',
+      date: 'JULY 25, 2023',
       image: '📚',
-      description: 'Exploring the characteristics of modern literature.',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     },
     {
-      title: 'Creative Becoming a Better Writer',
-      date: 'AUGUST 15, 2023',
+      title: 'Guide to Becoming a Better Writer',
+      date: 'JULY 25, 2023',
       image: '✍️',
-      description: 'Tips and techniques for improving your writing skills.',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     },
     {
-      title: 'My All Time Favorite Blue Pen',
-      date: 'SEPTEMBER 5, 2023',
+      title: 'My All Time 5 Favorite Blog Posts',
+      date: 'JULY 25, 2023',
       image: '🖊️',
-      description: 'A writer\'s journey with the perfect writing instrument.',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     },
   ]
 

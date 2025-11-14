@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -21,23 +22,42 @@ const Footer = () => {
               tempor incididunt ut labore et dolore magna aliqua.
             </p>
             <div className="flex gap-4">
-              {['Facebook', 'Twitter', 'Instagram', 'YouTube'].map((social, index) => (
-                <motion.a
-                  key={index}
-                  href="#"
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition-colors"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                  aria-label={social}
-                >
-                  <span className="text-sm">
-                    {social === 'Facebook' && 'f'}
-                    {social === 'Twitter' && 't'}
-                    {social === 'Instagram' && 'i'}
-                    {social === 'YouTube' && 'y'}
-                  </span>
-                </motion.a>
-              ))}
+              <motion.a
+                href="#"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition-colors"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label="Facebook"
+              >
+                <FaFacebookF className="text-white" />
+              </motion.a>
+              <motion.a
+                href="#"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition-colors"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label="Twitter"
+              >
+                <FaTwitter className="text-white" />
+              </motion.a>
+              <motion.a
+                href="#"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition-colors"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label="Instagram"
+              >
+                <FaInstagram className="text-white" />
+              </motion.a>
+              <motion.a
+                href="#"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition-colors"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label="YouTube"
+              >
+                <FaYoutube className="text-white" />
+              </motion.a>
             </div>
           </div>
 

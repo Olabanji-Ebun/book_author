@@ -1,24 +1,63 @@
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
+import { useInView } from 'framer-motion'
+import { useRef } from 'react'
+import BookCollectionGrid from '../components/sections/BookCollectionGrid'
+import NewRelease from '../components/sections/NewRelease'
+import Events from '../components/sections/Events'
+import Clients from '../components/sections/Clients'
 
 const Books = () => {
+  const heroRef = useRef(null)
+  const isHeroInView = useInView(heroRef, { once: true, margin: '-100px' })
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="pt-20 pb-16"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-gray-900 mb-6">
-            My Books
-          </h1>
-          <p className="text-lg text-gray-600 leading-relaxed">
-            This is the Books page. More content coming soon...
-          </p>
+      {/* Hero Section with Breadcrumb */}
+      <section
+        ref={heroRef}
+        className="pt-32 pb-16 md:pt-40 md:pb-24 bg-white"
+      >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <h1 className="text-5xl md:text-6xl font-serif font-bold text-gray-900 mb-6">
+              Book Collection
+            </h1>
+            <div className="flex items-center justify-center gap-2 text-gray-600">
+              <Link
+                to="/"
+                className="hover:text-orange-500 transition-colors"
+              >
+                HOME
+              </Link>
+              <span>→</span>
+              <span className="text-gray-900 font-semibold">BOOKS</span>
+            </div>
+          </motion.div>
         </div>
-      </div>
+      </section>
+
+      {/* Book Collection Grid */}
+      <BookCollectionGrid />
+
+      {/* New Release Banner */}
+      <NewRelease />
+
+      {/* Events Section */}
+      <Events />
+
+      {/* Clients Section */}
+      <Clients />
     </motion.div>
   )
 }

@@ -5,8 +5,11 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import About from './pages/About'
 import Books from './pages/Books'
+import BookDetail from './pages/BookDetail'
 import Blog from './pages/Blog'
 import Contact from './pages/Contact'
+import FAQs from './pages/FAQs'
+import NotFound from './pages/NotFound'
 
 const AnimatedRoutes = () => {
   const location = useLocation()
@@ -54,6 +57,19 @@ const AnimatedRoutes = () => {
           }
         />
         <Route
+          path="/book-detail"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+            >
+              <BookDetail />
+            </motion.div>
+          }
+        />
+        <Route
           path="/blog"
           element={
             <motion.div
@@ -76,6 +92,32 @@ const AnimatedRoutes = () => {
               transition={{ duration: 0.5 }}
             >
               <Contact />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/faqs"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+            >
+              <FAQs />
+            </motion.div>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+            >
+              <NotFound />
             </motion.div>
           }
         />

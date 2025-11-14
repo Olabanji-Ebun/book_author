@@ -8,13 +8,13 @@ const Clients = () => {
 
   const clients = [
     'MICHAEL ANDERSON',
+    'RENAISANS',
     'MARS',
     'NATUSKA',
-    'BREEZY',
-    'MLON',
-    'STELLAR',
-    'NEXUS',
-    'PRIME',
+    'BREZY',
+    'RADIUS',
+    'MOON',
+    'GOOD WELL',
   ]
 
   return (

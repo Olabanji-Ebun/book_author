@@ -8,10 +8,10 @@ const Skills = () => {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   const skills = [
-    { name: 'Creative Writing', percentage: 90 },
-    { name: 'Storytelling', percentage: 80 },
-    { name: 'Character Development', percentage: 70 },
-    { name: 'Editing', percentage: 60 },
+    { name: 'WRITING', percentage: 90 },
+    { name: 'AUTHOR', percentage: 80 },
+    { name: 'STORYLINK', percentage: 95 },
+    { name: 'ENDING', percentage: 90 },
   ]
 
   return (

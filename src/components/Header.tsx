@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import { FaCommentDots } from 'react-icons/fa'
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isBooksDropdownOpen, setIsBooksDropdownOpen] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
@@ -18,12 +20,17 @@ const Header = () => {
   const navItems = [
     { name: 'HOME', path: '/' },
     { name: 'ABOUT', path: '/about' },
-    { name: 'BOOKS', path: '/books' },
     { name: 'BLOG', path: '/blog' },
     { name: 'CONTACT', path: '/contact' },
   ]
 
+  const booksSubmenu = [
+    { name: 'Books', path: '/books' },
+    { name: 'Book Detail', path: '/book-detail' },
+  ]
+
   const isActive = (path: string) => location.pathname === path
+  const isBooksActive = () => location.pathname === '/books' || location.pathname === '/book-detail'
 
   return (
     <motion.header
@@ -52,38 +59,105 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
+            {/* HOME */}
+            <Link
+              to="/"
+              className={`text-sm font-semibold uppercase tracking-wide transition-colors ${
+                isActive('/')
+                  ? 'text-orange-500'
+                  : 'text-gray-700 hover:text-orange-500'
+              }`}
+            >
+              HOME
+            </Link>
+            {/* ABOUT */}
+            <Link
+              to="/about"
+              className={`text-sm font-semibold uppercase tracking-wide transition-colors ${
+                isActive('/about')
+                  ? 'text-orange-500'
+                  : 'text-gray-700 hover:text-orange-500'
+              }`}
+            >
+              ABOUT
+            </Link>
+            {/* Books Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsBooksDropdownOpen(true)}
+              onMouseLeave={() => setIsBooksDropdownOpen(false)}
+            >
+              <button
                 className={`text-sm font-semibold uppercase tracking-wide transition-colors ${
-                  isActive(item.path)
+                  isBooksActive()
                     ? 'text-orange-500'
                     : 'text-gray-700 hover:text-orange-500'
                 }`}
               >
-                {item.name}
-              </Link>
-            ))}
+                BOOKS
+              </button>
+              <AnimatePresence>
+                {isBooksDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
+                  >
+                    {booksSubmenu.map((item) => (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        className={`block px-4 py-3 text-sm font-semibold uppercase tracking-wide transition-colors ${
+                          isActive(item.path)
+                            ? 'text-orange-500 bg-orange-50'
+                            : 'text-gray-700 hover:text-orange-500 hover:bg-gray-50'
+                        }`}
+                        onClick={() => setIsBooksDropdownOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+            {/* BLOG */}
+            <Link
+              to="/blog"
+              className={`text-sm font-semibold uppercase tracking-wide transition-colors ${
+                isActive('/blog')
+                  ? 'text-orange-500'
+                  : 'text-gray-700 hover:text-orange-500'
+              }`}
+            >
+              BLOG
+            </Link>
+            {/* CONTACT */}
+            <Link
+              to="/contact"
+              className={`text-sm font-semibold uppercase tracking-wide transition-colors ${
+                isActive('/contact')
+                  ? 'text-orange-500'
+                  : 'text-gray-700 hover:text-orange-500'
+              }`}
+            >
+              CONTACT
+            </Link>
           </div>
 
-          {/* Cart */}
-          <div className="hidden md:flex items-center gap-2">
-            <svg
-              className="w-5 h-5 text-gray-700"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          {/* Let's Talk Button */}
+          <motion.div className="hidden md:flex items-center">
+            <Link
+              to="/contact"
+              className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white font-semibold uppercase tracking-wide rounded-lg hover:bg-orange-600 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-              />
-            </svg>
-            <span className="text-sm font-semibold text-gray-700">CART (0)</span>
-          </div>
+              <FaCommentDots className="text-sm" />
+              <span className="text-sm">Let's Talk!</span>
+            </Link>
+          </motion.div>
 
           {/* Mobile Menu Button */}
           <button
@@ -118,36 +192,97 @@ const Header = () => {
               className="md:hidden pb-4 border-t border-gray-200 mt-2"
             >
               <div className="flex flex-col space-y-4 pt-4">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={`text-sm font-semibold uppercase tracking-wide ${
-                      isActive(item.path)
+                {/* HOME */}
+                <Link
+                  to="/"
+                  className={`text-sm font-semibold uppercase tracking-wide ${
+                    isActive('/')
+                      ? 'text-orange-500'
+                      : 'text-gray-700'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  HOME
+                </Link>
+                {/* ABOUT */}
+                <Link
+                  to="/about"
+                  className={`text-sm font-semibold uppercase tracking-wide ${
+                    isActive('/about')
+                      ? 'text-orange-500'
+                      : 'text-gray-700'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  ABOUT
+                </Link>
+                {/* Books Dropdown for Mobile */}
+                <div className="flex flex-col space-y-2">
+                  <button
+                    className={`text-sm font-semibold uppercase tracking-wide text-left ${
+                      isBooksActive()
                         ? 'text-orange-500'
                         : 'text-gray-700'
                     }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={() => setIsBooksDropdownOpen(!isBooksDropdownOpen)}
                   >
-                    {item.name}
-                  </Link>
-                ))}
-                <div className="flex items-center gap-2 pt-2">
-                  <svg
-                    className="w-5 h-5 text-gray-700"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-                  <span className="text-sm font-semibold text-gray-700">CART (0)</span>
+                    BOOKS {isBooksDropdownOpen ? '−' : '+'}
+                  </button>
+                  {isBooksDropdownOpen && (
+                    <div className="pl-4 space-y-2">
+                      {booksSubmenu.map((item) => (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          className={`block text-sm font-semibold uppercase tracking-wide ${
+                            isActive(item.path)
+                              ? 'text-orange-500'
+                              : 'text-gray-600'
+                          }`}
+                          onClick={() => {
+                            setIsMobileMenuOpen(false)
+                            setIsBooksDropdownOpen(false)
+                          }}
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
+                {/* BLOG */}
+                <Link
+                  to="/blog"
+                  className={`text-sm font-semibold uppercase tracking-wide ${
+                    isActive('/blog')
+                      ? 'text-orange-500'
+                      : 'text-gray-700'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  BLOG
+                </Link>
+                {/* CONTACT */}
+                <Link
+                  to="/contact"
+                  className={`text-sm font-semibold uppercase tracking-wide ${
+                    isActive('/contact')
+                      ? 'text-orange-500'
+                      : 'text-gray-700'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  CONTACT
+                </Link>
+                {/* Let's Talk Button for Mobile */}
+                <Link
+                  to="/contact"
+                  className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white font-semibold uppercase tracking-wide rounded-lg hover:bg-orange-600 transition-colors mt-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <FaCommentDots className="text-sm" />
+                  <span className="text-sm">Let's Talk!</span>
+                </Link>
               </div>
             </motion.div>
           )}
